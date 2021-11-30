@@ -2,6 +2,7 @@ name: simple_deployment_pipeline
 
 on:
   push:
+  pull_request:
     branches:
       - main
 
@@ -15,15 +16,24 @@ jobs:
           node-version: '16.x'
       - name: npm install
         run: npm install
+      - run: npm ci
+      - run: npx patch-package
       - name: lint
         run: npm run eslint
       - name: build
         run: npm run build
       - name: test
         run: npm run test
+      - name: npx browserslist@latest --update-db
+        run: npx browserslist@latest --update-db
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
-          command: npm run test:e2e
           start: npm run start-prod
+          command: npm run test:e2e
           wait-on: http://localhost:5000
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
