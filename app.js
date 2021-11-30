@@ -1,5 +1,5 @@
-import express from 'express'
-import process from 'process'
+const express = require('express')
+const process = require('process')
 
 const app = express()
 
