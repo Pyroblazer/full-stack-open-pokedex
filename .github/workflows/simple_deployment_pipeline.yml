@@ -2,9 +2,12 @@ name: simple_deployment_pipeline
 
 on:
   push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
@@ -33,6 +36,7 @@ jobs:
           command: npm run test:e2e
           wait-on: http://localhost:5000
       - uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku

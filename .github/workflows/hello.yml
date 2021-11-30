@@ -20,3 +20,7 @@ jobs:
       - name: Directory content
         run: |
           ls -l
+
+      - name: test
+        run: |
+          echo "test"
