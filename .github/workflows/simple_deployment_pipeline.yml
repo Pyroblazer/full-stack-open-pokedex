@@ -51,6 +51,7 @@ jobs:
         uses: anothrNick/github-tag-action@1.33.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
       - name: action-slack
         uses: 8398a7/action-slack@v3.12.0
         with:
